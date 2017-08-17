@@ -17,8 +17,8 @@ type SimpleDB struct {
 	finaldir string
 }
 
-func NewDB(typeName string) *SimpleDB {
-	basedir := filepath.FromSlash("/json/")
+func NewDB(databaseName string, typeName string) *SimpleDB {
+	basedir := filepath.FromSlash("/"+databaseName+"/json/")
 	typedir := typeName+filepath.FromSlash("/")
 	finaldir := "."+basedir+typedir
 	var err error
@@ -52,7 +52,7 @@ func (db *SimpleDB) Delete(id string) error {
 }
 
 func (db *SimpleDB) Get(id string) ([]byte, error) {
-	path := jsonExtension(db.finaldir+id)
+	path := db.finaldir+id
 	if (!pathNotExists(path)){
 		if output, err := ioutil.ReadFile(path); err == nil {
 			return output, nil
